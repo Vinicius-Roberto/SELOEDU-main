@@ -1,0 +1,228 @@
+/* ====== Container principal ====== */
+.users-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ====== Título ====== */
+.users-title {
+  text-align: center;
+  font-size: 1.8em;
+  color: #005ea6;
+  margin-bottom: 25px;
+}
+
+/* ====== Botão Novo Usuário ====== */
+.users-actions {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.btn-new-user {
+  display: inline-block;
+  background-color: #0078d4;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.btn-new-user:hover {
+  background-color: #005ea6;
+}
+
+/* ====== Tabela de usuários ====== */
+.users-table-wrapper {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  font-size: 0.95em;
+}
+
+.users-table th,
+.users-table td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.users-table th {
+  background-color: #0078d4;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f2f6fa;
+}
+
+.users-table tr:hover {
+  background-color: #e8f1fa;
+}
+
+/* ====== Links ====== */
+.user-name-link {
+  color: #0078d4;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.user-name-link:hover {
+  text-decoration: underline;
+}
+
+/* ====== Ações ====== */
+.user-actions {
+  white-space: nowrap;
+}
+
+.btn-edit,
+.btn-delete {
+
+  color: #0078d4;
+  text-decoration: none;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1em;
+}
+
+.btn-edit:hover {
+  text-decoration: underline;
+}
+
+.btn-delete {
+  color: #c82333;
+}
+
+.btn-delete:hover {
+  text-decoration: underline;
+}
+
+/* ====== Mensagem quando não há usuários ====== */
+.no-users {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* FORMULÁRIO DE EDIÇÃO E CADASTRO DE NOVO USUÁRIO */
+/* =====================================================
+   FORMULÁRIO DE USUÁRIO - SELOEDU
+===================================================== */
+
+.user-form-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px 30px;
+}
+
+/* Bloco do formulário (similar ao login) */
+.login-form {
+  background: #ffffffcc;
+  border-radius: 12px;
+  max-width: 450px;
+  margin: 0 auto;
+  box-shadow: 0 6px 15px #007bff40;
+  padding: 30px 25px;
+  text-align: center;
+}
+
+/* Título */
+.login-form h2 {
+  font-size: 1.8em;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+/* Estrutura do formulário */
+.user-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px #007bff50;
+}
+
+/* Texto auxiliar (ex: senha opcional) */
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 13px;
+}
+
+/* Botões do formulário */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease;
+  border: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}

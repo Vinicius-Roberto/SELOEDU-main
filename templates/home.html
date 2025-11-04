@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-  <h1>Bem-vindo ao SELOEDU</h1>
-  <p><a href="{{ url_for('auth.login') }}">Fazer login</a></p>
+  <div id="home-container">
+    <h1 id="home-titulo">Bem-vindo ao SELOEDU</h1>
+    <a id="home-button-login" href="{{ url_for('auth.login') }}">Fazer login</a>
+  </div>
 {% endblock %}

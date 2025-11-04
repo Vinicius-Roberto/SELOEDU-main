@@ -3,40 +3,50 @@
 {% block title %}Usuários - SELOEDU{% endblock %}
 
 {% block content %}
-  <h2>Usuários</h2>
+<div class="users-container">
+  <h2 class="users-title">Usuários</h2>
 
-  <p><a href="{{ url_for('users.new') }}">+ Novo usuário</a></p>
+  <div class="users-actions">
+    <a href="{{ url_for('users.new') }}" class="btn-new-user">+ Novo usuário</a>
+  </div>
 
-  {% if users %}
-    <table border="1" cellpadding="6">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Papel</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for u in users %}
+  <div class="users-table-wrapper">
+    {% if users %}
+      <table class="users-table" border="1" cellpadding="6">
+        <thead>
           <tr>
-            <td>{{ u.id }}</td>
-            <td><a href="{{ url_for('users.show', id=u.id) }}">{{ u.nome }}</a></td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.role }}</td>
-            <td>
-              <a href="{{ url_for('users.edit', id=u.id) }}">Editar</a>
-              |
-              <form action="{{ url_for('users.delete', id=u.id) }}" method="post" style="display:inline">
-                <button type="submit">Excluir</button>
-              </form>
-            </td>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Papel</th>
+            <th>Ações</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>Nenhum usuário cadastrado.</p>
-  {% endif %}
+        </thead>
+        <tbody>
+          {% for u in users %}
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>
+                <a href="{{ url_for('users.show', id=u.id) }}" class="user-name-link">
+                  {{ u.nome }}
+                </a>
+              </td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+              <td class="user-actions">
+                <a href="{{ url_for('users.edit', id=u.id) }}" class="btn-edit">Editar</a>
+                |
+                <form action="{{ url_for('users.delete', id=u.id) }}" method="post" style="display:inline">
+                  <button type="submit" class="btn-delete">Excluir</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="no-users">Nenhum usuário cadastrado.</p>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

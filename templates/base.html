@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}SELOEDU{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
 </head>
 <body>
     <header>
         {% if current_user.is_authenticated %}
+            <h1 id="logo">SELOEDU</h1>
             <nav>
-                <a href="{{ url_for('users.dashboard') }}">Dashboard</a> |
-                <a href="{{ url_for('users.index') }}">Usuários</a> |
-                <a href="{{ url_for('users.atualizar_perfil') }}">Perfil</a> |
+                <a href="{{ url_for('users.dashboard') }}">Dashboard</a> 
+                <a href="{{ url_for('users.index') }}">Usuários</a> 
+                <a href="{{ url_for('users.atualizar_perfil') }}">Perfil</a> 
                 <a href="{{ url_for('auth.logout') }}">Sair</a>
             </nav>
         {% endif %}

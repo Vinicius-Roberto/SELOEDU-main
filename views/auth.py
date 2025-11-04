@@ -1,7 +1,10 @@
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_user, logout_user
 from models.users import User
-from utils.token_utils import generate_token, confirm_token  # importe aqui
+from extensions import db, mail
+from utils.token_utils import generate_token, confirm_token
+from flask_mail import Message
+
 
 
 def login():
@@ -24,33 +27,45 @@ def logout():
     return redirect(url_for("auth.login"))
 
 def forgot_password():
-    if request.method == "POST":
-        email = request.form.get("email")
+    if request.method == 'POST':
+        email = request.form.get('email')
         user = User.query.filter_by(email=email).first()
-
         if user:
             token = generate_token(email)
-            reset_url = url_for("auth.reset_password", token=token, _external=True)
-            # Aqui você enviaria o link por e-mail, mas vamos só simular
-            flash(f"Link de redefinição: {reset_url}", "info")
+            reset_url = url_for('auth.reset_password', token=token, _external=True)
+            msg = Message(
+                subject='Redefinição de senha',
+                recipients=[email],
+                body=f'Clique no link para redefinir sua senha: {reset_url}'
+            )
+            mail.send(msg)
+            flash(f'Link de redefinição enviado para {email}.', 'info')
         else:
-            flash("Email não encontrado.", "danger")
+            flash('E-mail não encontrado.', 'danger')
+        return redirect(url_for('auth.forgot_password'))
+    return render_template('auth/forgot_password.html')
 
-        return redirect(url_for("auth.login"))
 
-    return render_template("auth/forgot_password.html")
-
-def reset_password(token):
+def reset_password(token=None):
+    if not token:
+        flash('Token ausente ou inválido.', 'danger')
+        return redirect(url_for('auth.forgot_password'))
     email = confirm_token(token)
     if not email:
-        flash("Link inválido ou expirado.", "danger")
-        return redirect(url_for("auth.forgot_password"))
+        flash('Token expirado ou inválido.', 'danger')
+        return redirect(url_for('auth.forgot_password'))
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        flash('Usuário não encontrado.', 'danger')
+        return redirect(url_for('auth.forgot_password'))
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password:
+            user.set_password(password)
+            db.session.commit()
+            flash('Senha redefinida com sucesso!', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Informe uma nova senha.', 'danger')
+    return render_template('auth/reset_password.html')
 
-    if request.method == "POST":
-        new_password = request.form.get("password")
-        user = User.query.filter_by(email=email).first()
-        if user:
-            user.set_password(new_password)
-            flash("Senha redefinida com sucesso!", "success")
-            return redirect(url_for("auth.login"))
-    return render_template("auth/reset_password.html", token=token)
