@@ -1,28 +1,43 @@
 # app.py
 from flask import Flask, render_template
 from models.users import db, User
-from extensions import login_manager
+from extensions import login_manager, mail
 from routes.auth import auth_bp
 from routes.users import users_bp
+from config import Config  # ✅ Importa suas configurações
+
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'sua_chave_secreta'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seloedu.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    # ==========================
+    # ⚙️ CONFIGURAÇÕES DA APLICAÇÃO
+    # ==========================
+    app.config.from_object(Config)
+
+    # ==========================
+    # 🔧 INICIALIZAÇÃO DAS EXTENSÕES
+    # ==========================
     db.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)  # ✅ Agora o Flask-Mail é inicializado corretamente
 
-    # registrar blueprints
+    # ==========================
+    # 🔗 REGISTRO DE BLUEPRINTS
+    # ==========================
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
 
+    # ==========================
+    # 👤 LOGIN MANAGER
+    # ==========================
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # cria usuário master se não existir
+    # ==========================
+    # 👑 CRIA USUÁRIO MASTER SE NÃO EXISTIR
+    # ==========================
     with app.app_context():
         db.create_all()
         if not User.query.filter_by(email="admin@seloedu.com").first():
@@ -35,7 +50,9 @@ def create_app():
             db.session.add(master)
             db.session.commit()
 
-    # rota principal
+    # ==========================
+    # 🏠 ROTA PRINCIPAL
+    # ==========================
     @app.route("/")
     def home():
         return render_template("home.html")
