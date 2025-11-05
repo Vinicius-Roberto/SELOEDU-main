@@ -59,3 +59,6 @@ def delete_user(id):
     db.session.commit()
     flash("Usuário excluído com sucesso.", "success")
     return redirect(url_for("users.index"))
+
+def profile_view(current_user):
+    return render_template("users/profile.html", user=current_user)

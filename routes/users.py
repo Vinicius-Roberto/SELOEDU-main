@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash
+from flask import Blueprint, request, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from extensions import db
 from models.profile import Profile 
@@ -6,6 +6,7 @@ from views.users import (
     dashboard_view, list_users, create_user,
     show_user, edit_user, delete_user, render_perfil_page
 )
+
 
 users_bp = Blueprint("users", __name__)
 
@@ -86,3 +87,14 @@ def edit(id):
 @login_required
 def delete(id):
     return delete_user(id)
+
+@users_bp.route("/profile")
+def profile():
+    usuario = current_user  # pega o usuário logado
+    perfil = Profile.query.filter_by(user_id=usuario.id).first()  # pega o perfil do usuário
+
+    return render_template(
+        'users/profile.html',
+        usuario=usuario,
+        profile=perfil,  # aqui pode ser 'profile' para combinar com o template
+    )

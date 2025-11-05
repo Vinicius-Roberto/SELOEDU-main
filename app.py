@@ -4,7 +4,8 @@ from models.users import db, User
 from extensions import login_manager, mail
 from routes.auth import auth_bp
 from routes.users import users_bp
-from config import Config  # ✅ Importa suas configurações
+from routes.treinamento import treinamento_bp  # ✅ Blueprint do treinamento
+from config import Config
 
 
 def create_app():
@@ -20,13 +21,14 @@ def create_app():
     # ==========================
     db.init_app(app)
     login_manager.init_app(app)
-    mail.init_app(app)  # ✅ Agora o Flask-Mail é inicializado corretamente
+    mail.init_app(app)
 
     # ==========================
     # 🔗 REGISTRO DE BLUEPRINTS
     # ==========================
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(treinamento_bp)  # ✅ Registrando blueprint do treinamento
 
     # ==========================
     # 👤 LOGIN MANAGER
@@ -49,6 +51,11 @@ def create_app():
             master.set_password("123456")
             db.session.add(master)
             db.session.commit()
+
+        # 🔹 DEBUG: lista todos os endpoints registrados
+        print("===== Endpoints registrados =====")
+        for rule in app.url_map.iter_rules():
+            print(f"{rule.endpoint}: {rule}")
 
     # ==========================
     # 🏠 ROTA PRINCIPAL
